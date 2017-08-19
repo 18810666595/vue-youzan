@@ -5,6 +5,7 @@ import url from 'js/api.js';
 import Vue from 'vue';
 import axios from 'axios';
 import bottomNav from 'components/bottom-nav.vue';
+import swipe from 'components/swipe.vue';
 
 import {InfiniteScroll} from 'mint-ui';
 
@@ -14,10 +15,11 @@ new Vue({
   el: '#app',
   data: {
     lists: null, //最热商品推荐列表
-    pageNum: 1,
-    pageSize: 6,
+    pageNum: 1, //当前的页码
+    pageSize: 6, //每页请求多少条数据
     loading: false,
-    allLoaded: false
+    allLoaded: false,
+    bannerLists: null
   },
   methods: {
     // 获取最热商品
@@ -30,7 +32,7 @@ new Vue({
         pageNum: this.pageNum,
         pageSize: this.pageSize
       }).then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         let curLists = res.data.lists
         if (curLists < this.pageSize) {
           this.allLoaded = true
@@ -46,6 +48,12 @@ new Vue({
         this.loading = false;
       })
     },
+    getBanner() {
+      axios.post(url.banner).then(res=>{
+        // console.log(res.data.lists);
+        this.bannerLists = res.data.lists
+      })
+    },
     loadMore() {
       this.loading = true;
       setTimeout(() => {
@@ -59,8 +67,10 @@ new Vue({
   },
   created() {
     this.getHotLists() // 获取最热商品
+    this.getBanner() // 获取首页轮播图
   },
   components: {
-    bottomNav
+    bottomNav,
+    swipe
   }
 })
