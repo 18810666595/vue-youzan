@@ -4,8 +4,9 @@ import './index.css';
 import url from 'js/api.js';
 import Vue from 'vue';
 import axios from 'axios';
-import bottomNav from 'components/bottom-nav.vue';
+// import bottomNav from 'components/bottom-nav.vue';
 import swipe from 'components/swipe.vue';
+import mixin from 'js/mixin.js';
 
 import {InfiniteScroll} from 'mint-ui';
 
@@ -70,7 +71,7 @@ new Vue({
     this.getBanner() // 获取首页轮播图
   },
   components: {
-    bottomNav,
     swipe
-  }
+  },
+  mixins: [mixin]
 })

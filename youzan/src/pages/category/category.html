@@ -126,8 +126,7 @@
                 <h3 class="category-title">热门品牌
                 </h3>
                 <ul class="category-content">
-                  <li class="category-item js-category-item" :data-item-id="item.id" :data-item-name="item.name"
-                  v-for="item in subData.brandList">
+                  <li class="category-item js-category-item" :data-item-id="item.id" :data-item-name="item.name" v-for="item in subData.brandList" @click="toSearch(item)">
                     <img :src="item.image" :alt="item.name" class="category-img">
                     <span class="category-item-name">
                       {{item.name}}
@@ -138,8 +137,7 @@
                   热门分类
                 </h3>
                 <ul class="category-content">
-                  <li class="category-item js-category-item" :data-item-id="item.id" :data-item-name="item.name"
-                  v-for="item in subData.categoryList">
+                  <li class="category-item js-category-item" :data-item-id="item.id" :data-item-name="item.name" v-for="item in subData.categoryList" @click="toSearch(item)">
                     <img :src="item.image" :alt="item.name" class="category-img">
                     <span class="category-item-name">
                       {{item.name}}
