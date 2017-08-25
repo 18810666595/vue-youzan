@@ -1,21 +1,21 @@
-# youzan
+### 项目描述
+使用 vue-cli 重构有赞商城，后端数据使用阿里的 RAP 和 Mockjs 进行模拟，
 
-> A Vue.js project
+### 第三方库
++ axios: 异步获取后端数据。
++ mint-ui: 处理触底自动加载数据。
++ swiper: 图片的轮播。
++ velocity: 回到顶部动画
 
-## Build Setup
+### 项目启动
 
-``` bash
-# install dependencies
+```
+git clone git@github.com:18810666595/vue-youzan.git
+
+cd vue-youzan/youzan
+
 npm install
 
-# serve with hot reload at localhost:8080
 npm run dev
 
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
 ```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
