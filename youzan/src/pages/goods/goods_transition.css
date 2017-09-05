@@ -1,0 +1,14 @@
+.move-enter-active, .move-leave-active {
+  transition: all .5s ease;
+  transform: translate3d(0,0,0);
+}
+.move-enter, .move-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+  transform: translate3d(0,100%,0);
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: all .5s
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+  opacity: 0
+}
