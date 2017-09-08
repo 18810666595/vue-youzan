@@ -14,8 +14,9 @@ new Vue({
     total: 0,
     editingShop: null,
     editingShopIndex: -1,
-    removePopup: false,
-    removeData: null
+    removePopup: false,  //控制确认删除的弹框
+    removeData: null,
+    removeMsg: ''
   },
   computed: {
     allSelected: {
@@ -70,7 +71,7 @@ new Vue({
       }
       return []
     },
-    removeLists() {
+    removeLists() {  //存储要删除的商品列表
       if (this.editingShop) {
         let arr = []
         this.editingShop.goodsList.forEach(goods => {
@@ -154,26 +155,63 @@ new Vue({
     },
     remove(shop,shopIndex,goods,goodsIndex) {
       this.removePopup = true
-      this.removeData = {shop,shopIndex,goods,goodsIndex}
+      this.removeData = {shop,shopIndex,goods,goodsIndex} //对象的简洁写法
+      this.removeMsg = '确定要删除该商品吗？'
+    },
+    removeList(){
+      this.removePopup = true
+      this.removeMsg = `确定将所选 ${this.removeLists.length} 个商品删除？`
     },
     removeConfirm() {
-      //es6解构赋值
-      let {shop,shopIndex,goods,goodsIndex} = this.removeData
-      axios.post(url.cartRemove, {
-        id: goods.id
-      }).then(res=>{
-        shop.goodsList.splice(goodsIndex,1)
-        //如果店铺下面没有商品，则把店铺也删除
-        if (shop.goodsList.length===0) {
-          this.cartLists.splice(shopIndex,1)
-          this.removeShop()
-        }
-        this.removePopup = false
-      })
+      if (this.removeMsg === '确定要删除该商品吗？') { //if逻辑走删除单个商品
+        //es6解构赋值
+        let {shop,shopIndex,goods,goodsIndex} = this.removeData
+        axios.post(url.cartRemove, {
+          id: goods.id
+        }).then(res=>{
+          shop.goodsList.splice(goodsIndex,1)
+          //如果店铺下面没有商品，则把店铺也删除
+          if (shop.goodsList.length===0) {
+            this.cartLists.splice(shopIndex,1)
+            this.removeShop() //把其他店铺还原回正常状态
+          }
+          this.removePopup = false
+        })
+      } else { //else逻辑走删除多个商品
+        let ids = [] //存储要删除多个商品的id
+        this.removeLists.forEach(goods=>{
+          ids.push(goods.id)
+        })
+        //发送请求，在数据库中删除选中的商品列表
+        axios.post(url.cartMremove, {
+          ids
+        }).then(res=>{
+          let arr = [] //存储剩余的商品列表
+          //遍历编辑的商店里的商品列表，看里面的每一个
+          //商品goods是否为要删除的商品。如果不是，则存到arr数组中
+          this.editingShop.goodsList.forEach(goods=>{
+            let index = this.removeLists.findIndex(item=>{
+              return item.id ===goods.id
+            })
+            if(index === -1) {
+              arr.push(goods)
+            }
+          })
+          //如果 arr 存储了商品，则覆盖掉店铺的原来商品的列表
+          if (arr.length) {
+            this.editingShop.goodsList = arr
+          } else {
+            //如果arr的长度不存在了，说明该店铺下没有商品了，就把店铺也删除
+            this.cartLists.splice(this.editingShopIndex, 1)
+            this.removeShop() //把其他店铺还原回正常状态
+          }
+          this.removePopup = false //去除确认删除的弹框
+        })
+      }
     },
     removeShop() { //如果店铺下面没有商品，则把店铺也删除
-      this.editingShop = null
-      this.editingShopIndex = -1
+      this.editingShop = null     //把其他的店铺还原回正常状态
+      this.editingShopIndex = -1  //把其他的店铺还原回正常状态
       this.cartLists.forEach(shop=>{
         shop.editing = false
         shop.editingMsg = '编辑'
