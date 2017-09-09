@@ -191,15 +191,15 @@ new Vue({
           this.removePopup = false
         })
       } else { //else逻辑走删除多个商品
-        let ids = [] //存储要删除多个商品的id
-        this.removeLists.forEach(goods=>{
-          ids.push(goods.id)
-        })
+        // let ids = [] //存储要删除多个商品的id
+        // this.removeLists.forEach(goods=>{
+        //   ids.push(goods.id)
+        // })
         //发送请求，在数据库中删除选中的商品列表
         // axios.post(url.cartMremove, {
         //   ids
         // })
-        Cart.mremove(ids)
+        Cart.mremove(this.removeLists)
         .then(res=>{
           let arr = [] //存储剩余的商品列表
           //遍历编辑的商店里的商品列表，看里面的每一个

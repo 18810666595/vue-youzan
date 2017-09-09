@@ -17,7 +17,12 @@ class Cart {
       number: 1
     })
   }
-  static remove(id) {
+  static remove(arr) {
+    let ids = [] //存储要删除多个商品的id
+    arr.forEach(goods=>{
+      ids.push(goods.id)
+    })
+
     return fetch(url.cartRemove, {
       id
     })
