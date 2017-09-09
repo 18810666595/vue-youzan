@@ -3,10 +3,11 @@ import './cart_trade.css';
 import './cart.css';
 
 import Vue from 'vue';
-import axios from 'axios';
-import url from 'js/api.js';
+// import axios from 'axios';
+// import url from 'js/api.js';
 import mixin from 'js/mixin.js';
 import Volecity from 'velocity-animate';
+import Cart from 'js/cartService.js'
 
 new Vue({
   el: '.container',
@@ -91,7 +92,9 @@ new Vue({
   methods: {
     //获取购物车列表
     getLists() {
-      axios.post(url.cartLists).then(res=>{
+      // axios.post(url.cartLists)
+      Cart.getLists()
+      .then(res=>{
         // console.log(res.data.cartList);
         let lists = res.data.cartList
         lists.forEach(shop=>{
@@ -138,19 +141,25 @@ new Vue({
       this.editingShopIndex = shop.editing ? shopIndex : -1
     },
     reduce(goods) {
-      if (goods.number === 1) return;
-      axios.post(url.cartReduce, {
-        id: goods.id,
-        number: 1
-      }).then(res=>{
+      if (goods.number <= 1) return;
+      // axios.post(url.cartReduce, {
+      //   id: goods.id,
+      //   number: 1
+      // }).then(res=>{
+      //   goods.number--
+      // })
+      Cart.reduce(goods.id).then(res => {
         goods.number--
       })
     },
     add(goods) {
-      axios.post(url.cartAdd, {
-        id: goods.id,
-        number: 1
-      }).then(res=>{
+      // axios.post(url.cartAdd, {
+      //   id: goods.id,
+      //   number: 1
+      // }).then(res=>{
+      //   goods.number++
+      // })
+      Cart.add(goods.id).then(res => {
         goods.number++
       })
     },
@@ -167,9 +176,12 @@ new Vue({
       if (this.removeMsg === '确定要删除该商品吗？') { //if逻辑走删除单个商品
         //es6解构赋值
         let {shop,shopIndex,goods,goodsIndex} = this.removeData
-        axios.post(url.cartRemove, {
-          id: goods.id
-        }).then(res=>{
+
+        // axios.post(url.cartRemove, {
+        //   id: goods.id
+        // })
+        Cart.remove(goods.id)
+        .then(res=>{
           shop.goodsList.splice(goodsIndex,1)
           //如果店铺下面没有商品，则把店铺也删除
           if (shop.goodsList.length===0) {
@@ -184,9 +196,11 @@ new Vue({
           ids.push(goods.id)
         })
         //发送请求，在数据库中删除选中的商品列表
-        axios.post(url.cartMremove, {
-          ids
-        }).then(res=>{
+        // axios.post(url.cartMremove, {
+        //   ids
+        // })
+        Cart.mremove(ids)
+        .then(res=>{
           let arr = [] //存储剩余的商品列表
           //遍历编辑的商店里的商品列表，看里面的每一个
           //商品goods是否为要删除的商品。如果不是，则存到arr数组中

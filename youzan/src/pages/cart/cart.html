@@ -76,8 +76,8 @@
                             <div class="num" v-show="shop.editing">
                               <!---->
                               <div class="quantity">
-                                <button type="button" class="minus" :class="{disabled: goods.number===1}"></button>
-                                <input type="text" pattern="[0-9]*" class="txt" v-model="goods.number">
+                                <button type="button" class="minus" :class="{disabled: goods.number <= 1}"></button>
+                                <input type="number" pattern="[0-9]*" class="txt" v-model.number="goods.number">
                                 <button type="button" class="plus "></button>
                                 <div class="response-area response-area-minus" @click="reduce(goods)"></div>
                                 <div class="response-area response-area-plus" @click="add(goods)"></div>
