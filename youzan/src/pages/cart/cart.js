@@ -163,6 +163,13 @@ new Vue({
         goods.number++
       })
     },
+    update(id, number) {
+      if (/^\d+$/.test(number)){
+        Cart.update(id, number)
+      } else {
+        return
+      }
+    },
     remove(shop,shopIndex,goods,goodsIndex) {
       this.removePopup = true
       this.removeData = {shop,shopIndex,goods,goodsIndex} //对象的简洁写法
