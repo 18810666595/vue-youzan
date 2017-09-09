@@ -5,7 +5,8 @@ import './cart.css';
 import Vue from 'vue';
 import axios from 'axios';
 import url from 'js/api.js';
-import mixin from 'js/mixin.js'
+import mixin from 'js/mixin.js';
+import Volecity from 'velocity-animate';
 
 new Vue({
   el: '.container',
@@ -215,6 +216,24 @@ new Vue({
       this.cartLists.forEach(shop=>{
         shop.editing = false
         shop.editingMsg = '编辑'
+      })
+    },
+    start(e,goods){
+      goods.startX= e.changedTouches[0].clientX
+    },
+    end(e,shopIndex,goods,goodsIndex){
+      let endX = e.changedTouches[0].clientX //滑动结束的X坐标
+      let startX = goods.startX //滑动开始的X坐标
+      let slideDOM = this.$refs[`goods-${shopIndex}-${goodsIndex}`] //取到滑动的DOM节点
+      let left = '0'
+      if (startX - endX > 100) {
+        left = '-60px'
+      }
+      if (endX - startX > 100) {
+        left = '0px'
+      }
+      Volecity(slideDOM, {
+        left
       })
     }
   },

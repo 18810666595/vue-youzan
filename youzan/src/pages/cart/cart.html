@@ -48,7 +48,7 @@
                 <!---->
                 <div>
                   <ul class="js-list block block-list block-list-cart border-0">
-                    <li class="block-item block-item-cart" :class="{editing: shop.editing}" v-for="(goods, goodsIndex) in shop.goodsList">
+                    <li class="block-item block-item-cart" :class="{editing: shop.editing}" v-for="(goods, goodsIndex) in shop.goodsList" :key="goods.id" @touchstart="start($event,goods)" @touchend="end($event,shopIndex,goods,goodsIndex)" :ref="'goods-'+shopIndex+'-'+goodsIndex">
                       <div>
                         <div class="check-container" @click="selectGoods(shop, goods)">
                           <span class="check" :class="{checked: editingShop? goods.removeChecked : goods.checked}"></span>
@@ -160,7 +160,7 @@
                   结算 (3)
                 </button>
                 <!-- 编辑状态 -->
-                <button v-show="editingShop" href="javascript:;" :disabled="!removeLists.length" class="j-delete-goods btn font-size-14 btn-red"  @click="removeList">
+                <button v-show="editingShop" href="javascript:;" :disabled="!removeLists.length" class="j-delete-goods btn font-size-14 btn-red" @click="removeList">
                   删除
                 </button>
               </div>
@@ -171,7 +171,8 @@
       <!-- 阴影层 -->
       <div id="u5VK1DCGXP" v-show="removePopup" style="height: 100%; position: fixed; top: 0px; left: 0px; right: 0px; background-color: rgba(0, 0, 0, 0.7); z-index: 1000; transition: none 0.2s ease; opacity: 1;"></div>
       <!-- 删除确认弹框 -->
-      <div v-show="removePopup"
+      <div
+        v-show="removePopup"
         id="vYYSCzjKR1"
         class="popout-confirm popout-box"
         style="overflow: hidden; position: absolute; z-index: 1000; transition: opacity 300ms ease; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0px); visibility: visible; border-radius: 4px; background: white; width: 270px; padding: 15px; opacity: 1;">
