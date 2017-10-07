@@ -5,80 +5,146 @@
         <input class="js-id" name="id" type="hidden" value="">
         <div class="block-item" style="border-top:0;">
           <label>收货人</label>
-          <input type="text" placeholder="请输入姓名" name="user_name" value="" maxlength="20">
+          <input type="text" placeholder="请输入姓名" name="user_name" v-model.trim="name" maxlength="20">
         </div>
         <div class="block-item">
           <label>联系电话</label>
-          <input type="tel" placeholder="联系电话" name="tel" value="" maxlength="11">
+          <input type="tel" placeholder="联系电话" name="tel" v-model.trim="tel" maxlength="11">
         </div>
         <div class="block-item">
           <label>选择地区</label>
           <div class="select-group">
-            <select class="js-province-selector">
+            <select class="js-province-selector" v-model="provinceValue">
               <option value="-1">选择省份</option>
-              <option value="110000">北京市</option>
-              <option value="120000">天津市</option>
-              <option value="130000">河北省</option>
-              <option value="140000">山西省</option>
-              <option value="150000">内蒙古自治区</option>
-              <option value="210000">辽宁省</option>
-              <option value="220000">吉林省</option>
-              <option value="230000">黑龙江省</option>
-              <option value="310000">上海市</option>
-              <option value="320000">江苏省</option>
-              <option value="330000">浙江省</option>
-              <option value="340000">安徽省</option>
-              <option value="350000">福建省</option>
-              <option value="360000">江西省</option>
-              <option value="370000">山东省</option>
-              <option value="410000">河南省</option>
-              <option value="420000">湖北省</option>
-              <option value="430000">湖南省</option>
-              <option value="440000">广东省</option>
-              <option value="450000">广西壮族自治区</option>
-              <option value="460000">海南省</option>
-              <option value="500000">重庆市</option>
-              <option value="510000">四川省</option>
-              <option value="520000">贵州省</option>
-              <option value="530000">云南省</option>
-              <option value="540000">西藏自治区</option>
-              <option value="610000">陕西省</option>
-              <option value="620000">甘肃省</option>
-              <option value="630000">青海省</option>
-              <option value="640000">宁夏回族自治区</option>
-              <option value="650000">新疆维吾尔自治区</option>
-              <option value="710000">台湾省</option>
-              <option value="810000">香港特别行政区</option>
-              <option value="820000">澳门特别行政区</option>
+              <option v-for="province in addressData.list" :value="province.value">{{province.label}}</option>
+
             </select>
-            <select class="js-city-selector">
+            <select class="js-city-selector" v-model="cityValue">
               <option value="-1">选择城市</option>
+              <option v-for="city in cityList" :value="city.value">{{city.label}}</option>
             </select>
-            <select class="js-county-selector" name="area_code" data-code="">
+            <select class="js-county-selector" name="area_code" data-code="" v-model="districtValue">
               <option value="-1">选择地区</option>
+              <option v-for="district in districtList" :value="district.value">{{district.label}}</option>
             </select>
           </div>
         </div>
         <div class="block-item">
           <label>详细地址</label>
-          <input type="text" placeholder="街道门牌信息" name="address_detail" value="" maxlength="100">
+          <input type="text" placeholder="街道门牌信息" name="address_detail" v-model.trim="address" maxlength="100">
         </div>
       </div>
     </div>
-    <div class="block section js-save block-control-btn">
+    <div class="block section js-save block-control-btn" @click="add">
       <div class="block-item c-blue center">保存</div>
     </div>
-    <div class="block section js-delete hide block-control-btn">
+    <div class="block section js-delete  block-control-btn" v-show="type === 'edit'" @click="remove">
       <div class="block-item c-red center">删除</div>
     </div>
-    <div class="block stick-bottom-row center js-save-default hide">
+    <div class="block stick-bottom-row center js-save-default" v-show="type === 'edit'" @click="setDefault">
       <button class="btn btn-standard js-save-default-btn">设为默认收货地址</button>
     </div>
   </div>
 </template>
 
 <script>
+import Address from 'js/addressService.js';
+
 export default {
+  data() {
+    return {
+      name: '',
+      tel: '',
+      provinceValue: -1,
+      cityValue: -1,
+      districtValue: -1,
+      address: '',
+      id: '',
+      type: '',
+      instance: null,
+      addressData: require('js/address.json'),
+      cityList: null,
+      districtList: null
+    }
+  },
+  created() {
+    let query = this.$route.query
+    // console.log(query);
+    this.type = query.type;
+    this.instance = query.instance;
+    if(this.type === 'edit') {
+      let addressEdit = this.instance;
+      this.provinceValue = parseInt(addressEdit.provinceValue)
+      this.name = addressEdit.name;
+      this.tel = addressEdit.tel;
+      this.address = addressEdit.address;
+      this.id = addressEdit.id;
+    }
+  },
+  methods: {
+    add(){
+      //需要做非空与合法性校验
+      let {name,tel,provinceValue,cityValue,districtValue,address} = this;
+      let data = {name,tel,provinceValue,cityValue,districtValue,address}
+      // console.log(data);
+      if(this.type === 'add') {
+        Address.add(data).then(res => {
+          // this.$router.go(-1); //路由回跳到上一层
+          this.$router.push({name: 'all'})
+        })
+      }
+      if(this.type === 'edit') {
+        data.id = this.id;
+        Address.update(data).then(res => {
+          this.$router.go(-1)
+        })
+      }
+    },
+    remove() {
+      if(window.confirm('确认删除吗？')) {
+        Address.remove(this.id).then(res=>{
+          this.$router.go(-1);
+        })
+      }
+    },
+    setDefault() {
+      Address.setDefault(this.id).then(res=>{
+        this.$router.go(-1);
+      })
+    }
+  },
+  watch: {
+    provinceValue(newValue, oldValue){      //监听省的value变化
+      if(newValue === -1) return;
+      let provinceList = this.addressData.list;
+      let provinceIndex = provinceList.findIndex(item=>{  //找到选中省的下标index，以此来获取城市的列表
+        return item.value === newValue
+      })
+      // console.log(index);
+      this.cityList = provinceList[provinceIndex].children
+      // console.log(this.cityList);
+      this.cityValue = -1;        //每次重新选择省，则要把市和区还原会未选择状态
+      this.districtValue = -1;
+      if(this.type === 'edit') {
+        this.cityValue = parseInt(this.instance.cityValue);
+        // this.districtValue = parseInt(this.instance.districtValue);
+      }
+    },
+    cityValue(newValue, oldValue){    //监听市的value变化
+      if(newValue === -1) return;
+      let cityList = this.cityList;
+      let cityIndex = cityList.findIndex(item=>{    //找到选中市的下标index，以此来获取区的列表
+        return item.value === newValue;
+      })
+      // console.log(cityIndex);
+      // console.log(cityList);
+      this.districtList = cityList[cityIndex].children;
+      this.districtValue = -1;   //每次重新选择省，则要把市和区还原会未选择状态
+      if(this.type === 'edit') {
+        this.districtValue = parseInt(this.instance.districtValue);
+      }
+    }
+  }
 }
 </script>
 

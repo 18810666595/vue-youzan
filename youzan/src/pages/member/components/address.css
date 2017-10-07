@@ -4,7 +4,6 @@
   display: inline-block;
   padding: 0 3px;
   -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box
 }
 
@@ -16,7 +15,6 @@
 .btn-3-1 .btn {
   width: 100%;
   -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box
 }
 
@@ -67,9 +65,8 @@
 .popout-box .header {
   position: relative;
   margin-bottom: 10px;
-  -webkit-border-image: url("https://b.yzcdn.cn/v2/image/wap/border-line.png") 2 stretch;
-  -moz-border-image: url("https://b.yzcdn.cn/v2/image/wap/border-line.png") 2 stretch;
-  border-image: url("https://b.yzcdn.cn/v2/image/wap/border-line.png") 2 stretch;
+  -o-border-image: url("https://b.yzcdn.cn/v2/image/wap/border-line.png") 2 stretch;
+     border-image: url("https://b.yzcdn.cn/v2/image/wap/border-line.png") 2 stretch;
   border-bottom: 2px solid #e5e5e5
 }
 
@@ -224,9 +221,8 @@ body {
 }
 
 .section {
-  -webkit-border-image: url("https://b.yzcdn.cn2/image/pf/ui/border-line.png") 2 stretch;
-  -moz-border-image: url("https://b.yzcdn.cn2/image/pf/ui/border-line.png") 2 stretch;
-  border-image: url("https://b.yzcdn.cn2/image/pf/ui/border-line.png") 2 stretch;
+  -o-border-image: url("#") 2 stretch;
+     border-image: url("#") 2 stretch;
   border-top: 2px solid #e5e5e5;
   border-bottom: 2px solid #e5e5e5
 }
@@ -274,9 +270,8 @@ only screen and (min-device-pixel-ratio: 1.5) {
 }
 
 .stick-bottom-row.block {
-  -webkit-border-image: url("https://b.yzcdn.cn2/image/pf/ui/border-line.png") 2 stretch;
-  -moz-border-image: url("https://b.yzcdn.cn2/image/pf/ui/border-line.png") 2 stretch;
-  border-image: url("https://b.yzcdn.cn2/image/pf/ui/border-line.png") 2 stretch;
+  -o-border-image: url("#") 2 stretch;
+     border-image: url("#") 2 stretch;
   border-top: 2px solid #e5e5e5;
   background-color: #fff
 }
@@ -319,9 +314,8 @@ only screen and (min-device-pixel-ratio: 1.5) {
   display: inline-block;
   padding-right: 8px;
   margin-right: 8px;
-  -webkit-border-image: url("https://b.yzcdn.cn2/image/pf/ui/border-line.png") 2 stretch;
-  -moz-border-image: url("https://b.yzcdn.cn2/image/pf/ui/border-line.png") 2 stretch;
-  border-image: url("https://b.yzcdn.cn2/image/pf/ui/border-line.png") 2 stretch;
+  -o-border-image: url("#") 2 stretch;
+     border-image: url("#") 2 stretch;
   border-right: 2px solid #e5e5e5
 }
 
@@ -343,7 +337,6 @@ only screen and (min-device-pixel-ratio: 1.5) {
   list-style: none;
   font-size: 14px;
   -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box
 }
 
@@ -392,7 +385,6 @@ only screen and (min-device-pixel-ratio: 1.5) {
 .form .block-item textarea {
   height: 50px;
   -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
   box-sizing: content-box;
   resize: none
 }
@@ -414,7 +406,6 @@ only screen and (min-device-pixel-ratio: 1.5) {
   border: 1px solid #e5e5e5;
   border-radius: 4px;
   -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   outline-width: 0px;
   font-size: 14px
@@ -467,8 +458,6 @@ only screen and (min-device-pixel-ratio: 1.5) {
   width: 2px;
   height: 7px;
   -webkit-transform: rotate(-45deg);
-  -moz-transform: rotate(-45deg);
-  -ms-transform: rotate(-45deg);
   transform: rotate(-45deg);
   background-color: #a3a3a3
 }
@@ -482,8 +471,6 @@ only screen and (min-device-pixel-ratio: 1.5) {
   border-radius: 100px;
   background: #a3a3a3;
   -webkit-transform: scale(0.42);
-  -moz-transform: scale(0.42);
-  -ms-transform: scale(0.42);
   transform: scale(0.42);
   -webkit-tap-highlight-color: transparent
 }
@@ -500,15 +487,11 @@ only screen and (min-device-pixel-ratio: 1.5) {
   top: 17px;
   left: 6px;
   -webkit-transform: rotate(-45deg);
-  -moz-transform: rotate(-45deg);
-  -ms-transform: rotate(-45deg);
   transform: rotate(-45deg)
 }
 
 .search-form .close-icon::after {
   -webkit-transform: rotate(45deg);
-  -moz-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
   transform: rotate(45deg)
 }
 
@@ -577,7 +560,6 @@ only screen and (min-device-pixel-ratio: 1.5) {
   font-size: 14px;
   border: 1px solid #666;
   -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box
 }
 
@@ -666,9 +648,8 @@ only screen and (min-device-pixel-ratio: 1.5) {
 }
 
 .item-info {
-  -webkit-border-image: url("/v2/image/wap/border-line-2.png") 2 stretch;
-  -moz-border-image: url("/v2/image/wap/border-line-2.png") 2 stretch;
-  border-image: url("/v2/image/wap/border-line-2.png") 2 stretch;
+  -o-border-image: url("/v2/image/wap/border-line-2.png") 2 stretch;
+     border-image: url("/v2/image/wap/border-line-2.png") 2 stretch;
   border-top: 2px solid #e5e5e5;
   position: relative;
   padding: 15px 10px;

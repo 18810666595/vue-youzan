@@ -20,9 +20,10 @@ let routes = [{        //配置路由路径与对应的组件
   component: address,
   children: [{
     path: '',
-    redirect: 'all'
+    redirect: 'all' //路由重定向
   },{
     path: 'all',
+    name: 'all',
     component: all
   },{
     path: 'from',

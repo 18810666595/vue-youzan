@@ -1,17 +1,16 @@
 <template lang="html">
   <div class="container " style="min-height: 597px;">
     <div class="block-list address-list section section-first js-no-webview-block">
-      <a class="block-item js-address-item address-item " @click="toEdit">
-        <div class="address-title">tony 13112345678</div>
-        <p>广东省珠海市香洲区南方软件园</p>
+      <a v-for="addressItem in addressLists" :key="addressItem.id" v-if="addressLists && addressLists.length" class="block-item js-address-item address-item " :class="{'address-item-default': addressItem.isDefault}" @click="toEdit(addressItem)">
+        <div class="address-title">{{addressItem.name}} {{addressItem.tel}}</div>
+        <p>{{addressItem.provinceName}} {{addressItem.cityName}} {{addressItem.districtName}} {{addressItem.address}}</p>
       </a>
-      <a class="block-item js-address-item address-item address-item-default" @click="toEdit">
-        <div class="address-title">tony 13112345678</div>
-        <p>北京市北京市东城区天安门</p>
-      </a>
+    </div>;
+    <div v-if="addressLists && !addressLists.length" class="">
+      <p>没有地址，请添加</p>
     </div>
     <div class="block stick-bottom-row center">
-      <router-link class="btn btn-blue js-no-webview-block js-add-address-btn" :to="{name: 'form', query: '123'}">
+      <router-link class="btn btn-blue js-no-webview-block js-add-address-btn" :to="{name: 'form', query: {type: 'add'}}">
           新增地址
       </router-link>
     </div>
@@ -20,11 +19,31 @@
 </template>
 
 <script>
+import Address from 'js/addressService.js';
+
 export default {
+  data() {
+    return {
+      addressLists: null,
+
+    }
+  },
+  created() {
+    Address.list().then(res => {
+      // console.log('res',res);
+      this.addressLists = res.data.lists
+    })
+  },
   methods: {
-    toEdit() {
+    toEdit(addressItem) {
       //编程式导航
-      this.$router.push({name: 'form'})
+      this.$router.push({
+        name: 'form',
+        query: {
+          type: 'edit',
+          instance: addressItem
+        }
+      })
     }
   }
 }
