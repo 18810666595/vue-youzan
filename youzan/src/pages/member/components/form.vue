@@ -88,32 +88,50 @@ export default {
       let data = {name,tel,provinceValue,cityValue,districtValue,address}
       // console.log(data);
       if(this.type === 'add') {
-        Address.add(data).then(res => {
-          // this.$router.go(-1); //路由回跳到上一层
-          this.$router.push({name: 'all'})
-        })
+        // Address.add(data).then(res => {
+        //   // this.$router.go(-1); //路由回跳到上一层
+        //   this.$router.push({name: 'all'})
+        // })
+        this.$store.dispatch('addAction', data)
       }
       if(this.type === 'edit') {
         data.id = this.id;
-        Address.update(data).then(res => {
-          this.$router.go(-1)
-        })
+        // Address.update(data).then(res => {
+        //   this.$router.go(-1)
+        // })
+        this.$store.dispatch('updateAction', data)
       }
     },
     remove() {
       if(window.confirm('确认删除吗？')) {
-        Address.remove(this.id).then(res=>{
-          this.$router.go(-1);
-        })
+        // Address.remove(this.id).then(res=>{
+        //   this.$router.go(-1);
+        // })
+        this.$store.dispatch('removeAction', this.id)
       }
     },
     setDefault() {
-      Address.setDefault(this.id).then(res=>{
-        this.$router.go(-1);
-      })
+      // Address.setDefault(this.id).then(res=>{
+      //   this.$router.go(-1);
+      // })
+      this.$store.dispatch('setDefaultAction', this.id)
+    }
+  },
+  computed: {
+    addressLists(){   //在计算属性中获取Vuex中的state中的数据
+      return this.$store.state.addressLists
     }
   },
   watch: {
+    // addressLists(){    //监听addressLists变化后，页面返回到所有地址列表
+    //   this.$router.go(-1)
+    // },
+    addressLists: {     //深度监听，
+      handler(){
+        this.$router.push({name: 'all'})
+      },
+      deep: true
+    },
     provinceValue(newValue, oldValue){      //监听省的value变化
       if(newValue === -1) return;
       let provinceList = this.addressData.list;

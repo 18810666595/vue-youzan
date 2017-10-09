@@ -19,20 +19,30 @@
 </template>
 
 <script>
-import Address from 'js/addressService.js';
+// import Address from 'js/addressService.js';
+// import store from '../vuex/index.js';
 
 export default {
-  data() {
-    return {
-      addressLists: null,
-
+  // data() {
+  //   return {
+  //     addressLists: null,
+  //
+  //   }
+  // },
+  computed: {
+    addressLists(){  //在计算属性中获取Vuex中的state中的数据
+      return this.$store.state.addressLists
     }
   },
   created() {
-    Address.list().then(res => {
-      // console.log('res',res);
-      this.addressLists = res.data.lists
-    })
+    // Address.list().then(res => {
+    //   // console.log('res',res);
+    //   this.addressLists = res.data.lists
+    // })
+    if(!this.addressLists){
+      this.$store.dispatch('getLists');
+    }
+
   },
   methods: {
     toEdit(addressItem) {
